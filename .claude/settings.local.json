@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh-keygen -l -f ~/.ssh/id_rsa.pub)",
+      "Bash(ssh-keygen -l -f ~/.ssh/id_ed25519.pub)"
+    ]
+  }
+}
