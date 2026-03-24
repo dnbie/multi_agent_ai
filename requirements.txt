@@ -1,0 +1,31 @@
+# Agent X - Multi-Task AI Assistant System
+# BSc Final Year Project - Requirements
+
+# Core Framework
+streamlit>=1.31.0
+python-dotenv>=1.0.0
+
+# LLM Integration
+google-generativeai>=0.4.0
+openai>=1.12.0
+
+# Email
+secure-smtplib>=0.1.1
+
+# PDF Generation
+reportlab>=4.1.0
+
+# Data Analysis
+pandas>=2.0.0
+numpy>=1.24.0
+
+# HTTP Requests
+requests>=2.31.0
+
+# Utilities
+pydantic>=2.0.0
+
+# File Support
+openpyxl>=3.1.0
+python-docx>=1.0.0
+PyPDF2>=3.0.0

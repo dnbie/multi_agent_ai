@@ -1,0 +1,156 @@
+{
+  "routes": [
+    {
+      "id": "RT001",
+      "name": "Delhi-Jaipur Express",
+      "origin": "DEL",
+      "destination": "JAI",
+      "distance_km": 280,
+      "operators": ["RSRTC", "VRL", "NEETA"],
+      "frequency": "Every 30 minutes",
+      "first_bus": "05:00",
+      "last_bus": "23:30",
+      "intermediate_stops": ["Gurgaon", "Manesar", "Bhiwadi", "Behror"]
+    },
+    {
+      "id": "RT002",
+      "name": "Mumbai-Pune Expressway",
+      "origin": "BOM",
+      "destination": "PUN",
+      "distance_km": 150,
+      "operators": ["MSRTC", "NEETA", "VRL"],
+      "frequency": "Every 15 minutes",
+      "first_bus": "04:30",
+      "last_bus": "00:00",
+      "intermediate_stops": ["Panvel", "Lonavala", "Khandala"]
+    },
+    {
+      "id": "RT003",
+      "name": "Bangalore-Mysore Highway",
+      "origin": "BLR",
+      "destination": "MYS",
+      "distance_km": 145,
+      "operators": ["KSRTC", "VRL", "SRS"],
+      "frequency": "Every 20 minutes",
+      "first_bus": "05:00",
+      "last_bus": "23:00",
+      "intermediate_stops": ["Bidadi", "Ramanagara", "Channapatna", "Maddur", "Mandya", "Srirangapatna"]
+    },
+    {
+      "id": "RT004",
+      "name": "Hyderabad-Bangalore Corridor",
+      "origin": "HYD",
+      "destination": "BLR",
+      "distance_km": 570,
+      "operators": ["KSRTC", "TSRTC", "ORANGE", "VRL"],
+      "frequency": "Hourly",
+      "first_bus": "06:00",
+      "last_bus": "22:00",
+      "intermediate_stops": ["Kurnool", "Anantapur", "Chitradurga", "Tumkur"]
+    },
+    {
+      "id": "RT005",
+      "name": "Delhi-Agra Tourist Route",
+      "origin": "DEL",
+      "destination": "AGR",
+      "distance_km": 230,
+      "operators": ["UPSRTC", "VRL", "HANS"],
+      "frequency": "Every 45 minutes",
+      "first_bus": "05:30",
+      "last_bus": "21:00",
+      "intermediate_stops": ["Faridabad", "Mathura"]
+    },
+    {
+      "id": "RT006",
+      "name": "Chennai-Bangalore Express",
+      "origin": "CHE",
+      "destination": "BLR",
+      "distance_km": 350,
+      "operators": ["KSRTC", "SETC", "VRL", "SRS"],
+      "frequency": "Every 30 minutes",
+      "first_bus": "05:00",
+      "last_bus": "23:30",
+      "intermediate_stops": ["Vellore", "Krishnagiri", "Hosur"]
+    },
+    {
+      "id": "RT007",
+      "name": "Mumbai-Ahmedabad Highway",
+      "origin": "BOM",
+      "destination": "AHM",
+      "distance_km": 530,
+      "operators": ["GSRTC", "MSRTC", "VRL", "NEETA"],
+      "frequency": "Hourly",
+      "first_bus": "06:00",
+      "last_bus": "22:30",
+      "intermediate_stops": ["Surat", "Vadodara", "Anand"]
+    },
+    {
+      "id": "RT008",
+      "name": "Jaipur-Ahmedabad Route",
+      "origin": "JAI",
+      "destination": "AHM",
+      "distance_km": 660,
+      "operators": ["RSRTC", "GSRTC", "VRL"],
+      "frequency": "Every 2 hours",
+      "first_bus": "06:00",
+      "last_bus": "20:00",
+      "intermediate_stops": ["Ajmer", "Udaipur", "Dungarpur"]
+    },
+    {
+      "id": "RT009",
+      "name": "Delhi-Lucknow Express",
+      "origin": "DEL",
+      "destination": "LKO",
+      "distance_km": 550,
+      "operators": ["UPSRTC", "VRL", "HANS"],
+      "frequency": "Every hour",
+      "first_bus": "05:00",
+      "last_bus": "22:00",
+      "intermediate_stops": ["Ghaziabad", "Moradabad", "Bareilly", "Shahjahanpur"]
+    },
+    {
+      "id": "RT010",
+      "name": "Hyderabad-Chennai Corridor",
+      "origin": "HYD",
+      "destination": "CHE",
+      "distance_km": 630,
+      "operators": ["TSRTC", "SETC", "ORANGE", "SRS"],
+      "frequency": "Every 90 minutes",
+      "first_bus": "06:00",
+      "last_bus": "21:30",
+      "intermediate_stops": ["Nellore", "Ongole", "Vijayawada"]
+    }
+  ],
+  "bus_types": {
+    "ORDINARY": {
+      "description": "Basic non-AC bus",
+      "amenities": ["Seat Belt"],
+      "fare_multiplier": 1.0
+    },
+    "EXPRESS": {
+      "description": "Faster service with fewer stops",
+      "amenities": ["Seat Belt", "Reading Light"],
+      "fare_multiplier": 1.3
+    },
+    "DELUXE": {
+      "description": "Comfortable seating",
+      "amenities": ["Seat Belt", "Reading Light", "Cushioned Seats"],
+      "fare_multiplier": 1.5
+    },
+    "AC_SEATER": {
+      "description": "Air-conditioned seater bus",
+      "amenities": ["AC", "Seat Belt", "Reading Light", "Charging Point"],
+      "fare_multiplier": 2.0
+    },
+    "AC_SLEEPER": {
+      "description": "Air-conditioned sleeper bus",
+      "amenities": ["AC", "Seat Belt", "Blanket", "Pillow", "Charging Point"],
+      "fare_multiplier": 2.5
+    },
+    "VOLVO": {
+      "description": "Premium multi-axle luxury bus",
+      "amenities": ["AC", "Seat Belt", "WiFi", "Entertainment Screen", "Blanket", "Water", "Snacks"],
+      "fare_multiplier": 3.0
+    }
+  }
+}

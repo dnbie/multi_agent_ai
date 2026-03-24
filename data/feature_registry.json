@@ -1,0 +1,121 @@
+{
+  "email": {
+    "name": "email",
+    "module_path": "agents/email_agent.py",
+    "capabilities": [
+      "Send emails"
+    ],
+    "description": "Email automation",
+    "registered_at": "2026-03-17T10:10:35.867359",
+    "status": "active"
+  },
+  "report": {
+    "name": "report",
+    "module_path": "agents/report_agent.py",
+    "capabilities": [
+      "Generate reports"
+    ],
+    "description": "Report generator",
+    "registered_at": "2026-03-17T10:10:35.879409",
+    "status": "active"
+  },
+  "flight": {
+    "name": "flight",
+    "module_path": "agents/flight_agent.py",
+    "capabilities": [
+      "Search flights"
+    ],
+    "description": "Flight search",
+    "registered_at": "2026-03-17T10:10:35.881874",
+    "status": "active"
+  },
+  "bus": {
+    "name": "bus",
+    "module_path": "agents/bus_agent.py",
+    "capabilities": [
+      "Search buses"
+    ],
+    "description": "Bus routes",
+    "registered_at": "2026-03-17T10:10:35.884153",
+    "status": "active"
+  },
+  "file_organizer": {
+    "name": "file_organizer",
+    "module_path": "agents/file_organizer_agent.py",
+    "capabilities": [
+      "Organize files"
+    ],
+    "description": "File organizer",
+    "registered_at": "2026-03-17T10:10:35.889373",
+    "status": "active"
+  },
+  "browser": {
+    "name": "browser",
+    "module_path": "agents/browser_agent.py",
+    "capabilities": [
+      "Open websites",
+      "YouTube"
+    ],
+    "description": "Browser agent",
+    "registered_at": "2026-03-17T10:10:35.894024",
+    "status": "active"
+  },
+  "weather": {
+    "name": "weather",
+    "module_path": "agents/weather_agent.py",
+    "capabilities": [
+      "Current weather",
+      "Forecast",
+      "AI advice"
+    ],
+    "description": "Weather agent",
+    "registered_at": "2026-03-17T10:10:35.897139",
+    "status": "active"
+  },
+  "news": {
+    "name": "news",
+    "module_path": "agents/news_agent.py",
+    "capabilities": [
+      "Fetch news",
+      "Summarize headlines"
+    ],
+    "description": "News agent",
+    "registered_at": "2026-03-17T10:10:35.901374",
+    "status": "active"
+  },
+  "reminder": {
+    "name": "reminder",
+    "module_path": "agents/reminder_agent.py",
+    "capabilities": [
+      "Set reminders",
+      "Notifications"
+    ],
+    "description": "Reminder agent",
+    "registered_at": "2026-03-17T10:10:35.905265",
+    "status": "active"
+  },
+  "emergency": {
+    "name": "emergency",
+    "module_path": "agents/emergency_agent.py",
+    "capabilities": [
+      "Emergency contacts",
+      "Hospitals",
+      "Guidance"
+    ],
+    "description": "Emergency agent",
+    "registered_at": "2026-03-17T10:10:35.906642",
+    "status": "active"
+  },
+  "train": {
+    "name": "train",
+    "module_path": "agents/train_agent.py",
+    "capabilities": [
+      "Search trains",
+      "Fares",
+      "Itinerary"
+    ],
+    "description": "Train ticket agent",
+    "registered_at": "2026-03-17T10:10:35.908463",
+    "status": "active"
+  }
+}
