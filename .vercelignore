@@ -1,13 +1,25 @@
 # Vercel Ignore
+_api/
+agents/
+tools/
+utils/
+database/
+core/
+data/
+prompts/
+docs/
+outputs/
+logs/
 venv/
 .venv/
 __pycache__/
 *.pyc
+*.py
 .env
 .env.local
 *.db
 *.sqlite3
-logs/
 .git/
 .vscode/
+.idea/
 .idea/
