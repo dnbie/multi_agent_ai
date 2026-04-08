@@ -9,9 +9,12 @@ import json
 import os
 from pathlib import Path
 
-# Database path
+# Database path - use /tmp on serverless (Vercel), otherwise local
 DB_DIR = Path(__file__).parent
-DB_PATH = DB_DIR / "users.db"
+if os.environ.get('VERCEL'):
+    DB_PATH = Path("/tmp") / "users.db"
+else:
+    DB_PATH = DB_DIR / "users.db"
 
 
 def get_connection():

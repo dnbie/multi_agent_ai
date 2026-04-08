@@ -41,6 +41,11 @@ class BusAPI:
         "MYS": {"name": "Mysore", "state": "Karnataka"},
         "HYD": {"name": "Hyderabad", "state": "Telangana"},
         "CHE": {"name": "Chennai", "state": "Tamil Nadu"},
+        "CBE": {"name": "Coimbatore", "state": "Tamil Nadu"},
+        "MDU": {"name": "Madurai", "state": "Tamil Nadu"},
+        "TVC": {"name": "Thiruvananthapuram", "state": "Kerala"},
+        "GOA": {"name": "Goa", "state": "Goa"},
+        "MNG": {"name": "Mangalore", "state": "Karnataka"},
         "AHM": {"name": "Ahmedabad", "state": "Gujarat"},
         "LKO": {"name": "Lucknow", "state": "Uttar Pradesh"},
         "KOL": {"name": "Kolkata", "state": "West Bengal"}
@@ -57,7 +62,17 @@ class BusAPI:
         ("BLR", "CHE"): 350,
         ("HYD", "BLR"): 570,
         ("HYD", "CHE"): 630,
-        ("JAI", "AHM"): 660
+        ("JAI", "AHM"): 660,
+        ("CHE", "CBE"): 505,
+        ("CHE", "MDU"): 460,
+        ("CBE", "MDU"): 210,
+        ("CBE", "BLR"): 365,
+        ("BLR", "GOA"): 560,
+        ("BLR", "MNG"): 350,
+        ("CHE", "HYD"): 630,
+        ("CBE", "TVC"): 430,
+        ("MDU", "TVC"): 310,
+        ("BOM", "GOA"): 590
     }
     
     # Bus types

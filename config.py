@@ -12,16 +12,28 @@ load_dotenv()
 
 # Base Paths
 BASE_DIR = Path(__file__).parent
-DATA_DIR = BASE_DIR / "data"
-OUTPUT_DIR = BASE_DIR / "outputs"
-LOGS_DIR = BASE_DIR / "logs"
+
+# On Vercel serverless, use /tmp for writable directories
+if os.environ.get('VERCEL'):
+    WRITABLE_DIR = Path("/tmp")
+    DATA_DIR = BASE_DIR / "data"  # read-only data files
+    OUTPUT_DIR = WRITABLE_DIR / "outputs"
+    LOGS_DIR = WRITABLE_DIR / "logs"
+else:
+    DATA_DIR = BASE_DIR / "data"
+    OUTPUT_DIR = BASE_DIR / "outputs"
+    LOGS_DIR = BASE_DIR / "logs"
+
 REPORTS_DIR = OUTPUT_DIR / "reports"
 SUMMARIES_DIR = OUTPUT_DIR / "summaries"
 ORGANIZED_DIR = OUTPUT_DIR / "organized"
 
 # Create directories if they don't exist
 for directory in [DATA_DIR, OUTPUT_DIR, LOGS_DIR, REPORTS_DIR, SUMMARIES_DIR, ORGANIZED_DIR]:
-    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        pass  # Skip if directory creation fails on read-only filesystem
 
 # LLM Configuration
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini")  # "gemini" or "openai"
@@ -93,47 +105,18 @@ def get_email_config(user_id=None):
     If user_id is provided, returns user-specific settings.
     Falls back to environment variables if user settings are empty.
     """
-    # Try to get user-specific settings
     if user_id:
         try:
             from database.db import get_user_email_config
             user_config = get_user_email_config(user_id)
-            
-            # Return user config if email is set, otherwise fall back to defaults
             if user_config.get('email_address'):
                 return user_config
         except Exception:
             pass
     
-    # Fall back to environment variables
     return {
         "smtp_server": SMTP_SERVER,
         "smtp_port": SMTP_PORT,
         "email_address": EMAIL_ADDRESS,
         "email_password": EMAIL_PASSWORD
     }
-
-
-def get_user_email_config_from_session():
-    """Get email config for currently logged-in user from Streamlit session"""
-    try:
-        import streamlit as st
-        user = st.session_state.get('user')
-        if user:
-            return get_email_config(user['id'])
-    except Exception:
-        pass
-    return get_email_config()
-
-
-def get_user_emergency_info_from_session():
-    """Get emergency contact info for currently logged-in user"""
-    try:
-        import streamlit as st
-        from database.db import get_user_emergency_contacts
-        user = st.session_state.get('user')
-        if user:
-            return get_user_emergency_contacts(user['id'])
-    except Exception:
-        pass
-    return None

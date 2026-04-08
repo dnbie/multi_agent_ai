@@ -51,6 +51,55 @@ class EmailAgent(BaseAgent):
         result = self._create_result(False, "")
         
         try:
+            # Check if this is just a body generation request (not sending)
+            task_lower = task.lower()
+            is_generate_only = ('generate' in task_lower and 'body' in task_lower) or \
+                               ('generate' in task_lower and 'email' in task_lower and 'send' not in task_lower)
+            
+            if is_generate_only:
+                # Just generate email body content, don't send
+                result.add_step("generate_body", "started")
+                
+                llm = self.get_llm()
+                
+                # Extract subject from task
+                subject = ""
+                if "subject:" in task_lower or "subject \"" in task_lower:
+                    import re
+                    subject_match = re.search(r'subject[:\s]*["\']?([^"\']+)["\']?', task, re.IGNORECASE)
+                    if subject_match:
+                        subject = subject_match.group(1).strip()
+                
+                # Determine tone
+                tone = "professional"
+                if any(word in task_lower for word in ["casual", "friendly", "informal"]):
+                    tone = "friendly"
+                elif any(word in task_lower for word in ["formal", "official"]):
+                    tone = "formal"
+                
+                email_content = llm.generate_email(
+                    recipient="Recipient",
+                    subject=subject or "Email",
+                    purpose=subject or task,
+                    tone=tone
+                )
+                
+                body = email_content.get("body", "")
+                
+                result = self._create_result(
+                    True,
+                    "Email body generated successfully",
+                    data={
+                        "body": body,
+                        "content": body,
+                        "subject": subject,
+                        "tone": tone
+                    }
+                )
+                result.add_step("generate_body", "success")
+                self._end_execution(result)
+                return result
+            
             # Parse task to extract parameters
             parsed = self.parse_instruction(task)
             

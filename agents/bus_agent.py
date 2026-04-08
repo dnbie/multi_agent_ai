@@ -154,6 +154,11 @@ class BusAgent(BaseAgent):
             "MYSORE": "MYS", "MYSURU": "MYS",
             "HYDERABAD": "HYD",
             "CHENNAI": "CHE", "MADRAS": "CHE",
+            "COIMBATORE": "CBE",
+            "MADURAI": "MDU",
+            "THIRUVANANTHAPURAM": "TVC", "TRIVANDRUM": "TVC",
+            "GOA": "GOA",
+            "MANGALORE": "MNG", "MANGALURU": "MNG",
             "AHMEDABAD": "AHM",
             "LUCKNOW": "LKO",
             "KOLKATA": "KOL", "CALCUTTA": "KOL"

@@ -1,9 +1,15 @@
 # Agent X - Multi-Task AI Assistant System
 # BSc Final Year Project - Requirements
 
-# Core Framework
-streamlit>=1.31.0
+# Flask API Backend
+flask>=3.0.0
+flask-cors>=4.0.0
+PyJWT>=2.8.0
+google-auth>=2.27.0
 python-dotenv>=1.0.0
+
+# Payment Gateway
+razorpay>=1.4.1
 
 # LLM Integration
 google-generativeai>=0.4.0
