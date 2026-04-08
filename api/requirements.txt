@@ -1,12 +1,7 @@
-# Agent X - Vercel Serverless (lightweight)
-# Only essential packages to stay under 250MB limit
-
+# Agent X - Vercel Serverless (minimal)
 flask>=3.0.0
 flask-cors>=4.0.0
 PyJWT>=2.8.0
 google-auth>=2.27.0
 python-dotenv>=1.0.0
-razorpay>=1.4.1
-google-generativeai>=0.4.0
 requests>=2.31.0
-pydantic>=2.0.0

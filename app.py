@@ -18,7 +18,15 @@ from database.db import (
     verify_user, create_user, get_user_by_username,
     get_user_settings, update_user_settings, init_db
 )
-from agents.orchestrator import AgentOrchestrator
+
+# Lazy import orchestrator to avoid loading all agents at module level
+_orchestrator = None
+def get_orchestrator():
+    global _orchestrator
+    if _orchestrator is None:
+        from agents.orchestrator import AgentOrchestrator
+        _orchestrator = AgentOrchestrator()
+    return _orchestrator
 
 # ============== App Configuration ==============
 app = Flask(__name__)
@@ -68,7 +76,6 @@ AGENTS_CONFIG = [
 
 # Initialize services
 init_db()
-orchestrator = AgentOrchestrator()
 
 
 # ============== Helper Functions ==============
@@ -218,10 +225,11 @@ def execute_task(current_user):
         return jsonify({'message': 'Task is required'}), 400
     
     try:
+        orch = get_orchestrator()
         if agent_type in ('auto', '', None):
-            result = orchestrator.process_request(task)
-        elif agent_type in orchestrator.agents:
-            result = orchestrator.agents[agent_type].execute(task)
+            result = orch.process_request(task)
+        elif agent_type in orch.agents:
+            result = orch.agents[agent_type].execute(task)
         else:
             return jsonify({'success': False, 'message': f'Unknown agent: {agent_type}'}), 400
         
