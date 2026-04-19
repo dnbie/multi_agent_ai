@@ -5,6 +5,7 @@ Provides REST API endpoints for the React frontend
 
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flasgger import Swagger
 from functools import wraps
 import jwt
 import os
@@ -48,6 +49,51 @@ if FRONTEND_URL:
     ALLOWED_ORIGINS.append(FRONTEND_URL)
 
 CORS(app, resources={r"/api/*": {"origins": ALLOWED_ORIGINS}})
+
+# ============== Swagger / OpenAPI Docs ==============
+SWAGGER_CONFIG = {
+    "headers": [],
+    "specs": [
+        {
+            "endpoint": "apispec",
+            "route": "/apispec.json",
+            "rule_filter": lambda rule: True,
+            "model_filter": lambda tag: True,
+        }
+    ],
+    "static_url_path": "/flasgger_static",
+    "swagger_ui": True,
+    "specs_route": "/docs",
+    "title": "Agent X API",
+    "version": "1.0.0",
+    "description": "REST API for the Agent X multi-agent platform",
+    "termsOfService": "",
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+            "description": "JWT token. Format: **Bearer &lt;token&gt;**"
+        }
+    },
+}
+
+SWAGGER_TEMPLATE = {
+    "info": {
+        "title": "Agent X API",
+        "description": "REST API for the Agent X multi-agent platform",
+        "version": "1.0.0",
+    },
+    "securityDefinitions": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+        }
+    },
+}
+
+swagger = Swagger(app, config=SWAGGER_CONFIG, template=SWAGGER_TEMPLATE, merge=True)
 
 app.config.update(
     SECRET_KEY=os.environ.get('SECRET_KEY', 'agentx-secret-key-2026'),
@@ -132,7 +178,34 @@ def token_required(f):
 
 @app.route('/api/auth/login', methods=['POST'])
 def login():
-    """Login with username and password"""
+    """Login with username and password
+    ---
+    tags:
+      - Auth
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [username, password]
+          properties:
+            username:
+              type: string
+              example: john
+            password:
+              type: string
+              example: secret123
+    responses:
+      200:
+        description: Login successful, returns JWT token
+      400:
+        description: Missing username or password
+      401:
+        description: Invalid credentials
+    """
     data = request.get_json() or {}
     username, password = data.get('username'), data.get('password')
     
@@ -151,7 +224,40 @@ def login():
 
 @app.route('/api/auth/signup', methods=['POST'])
 def signup():
-    """Create new user account"""
+    """Create new user account
+    ---
+    tags:
+      - Auth
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [username, password]
+          properties:
+            username:
+              type: string
+              example: john
+            password:
+              type: string
+              example: secret123
+            email:
+              type: string
+              example: john@example.com
+            full_name:
+              type: string
+              example: John Doe
+    responses:
+      201:
+        description: Account created successfully
+      400:
+        description: Validation error or username already exists
+      500:
+        description: Server error
+    """
     data = request.get_json() or {}
     username, password = data.get('username'), data.get('password')
     
@@ -172,7 +278,31 @@ def signup():
 
 @app.route('/api/auth/google', methods=['POST'])
 def google_auth():
-    """Authenticate with Google OAuth"""
+    """Authenticate with Google OAuth
+    ---
+    tags:
+      - Auth
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [credential]
+          properties:
+            credential:
+              type: string
+              description: Google ID token
+    responses:
+      200:
+        description: Authentication successful, returns JWT token
+      400:
+        description: Missing credential
+      401:
+        description: Invalid Google token
+    """
     data = request.get_json() or {}
     credential = data.get('credential')
     
@@ -207,7 +337,18 @@ def google_auth():
 @app.route('/api/auth/verify', methods=['GET'])
 @token_required
 def verify_token(current_user):
-    """Verify if token is valid"""
+    """Verify if JWT token is valid
+    ---
+    tags:
+      - Auth
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: Token is valid
+      401:
+        description: Invalid or expired token
+    """
     return jsonify({'valid': True, 'user': format_user_response(current_user)})
 
 
@@ -216,7 +357,40 @@ def verify_token(current_user):
 @app.route('/api/agents/execute', methods=['POST'])
 @token_required
 def execute_task(current_user):
-    """Execute a task using the appropriate agent"""
+    """Execute a task using the appropriate agent
+    ---
+    tags:
+      - Agents
+    security:
+      - Bearer: []
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [task]
+          properties:
+            task:
+              type: string
+              example: Book a flight from Delhi to Mumbai
+            agent_type:
+              type: string
+              enum: [auto, email, report, flight, bus, train, file_organizer, browser, weather, news, reminder, emergency]
+              default: auto
+              description: Agent to use. Use "auto" for automatic routing.
+    responses:
+      200:
+        description: Task execution result
+      400:
+        description: Missing task or unknown agent
+      401:
+        description: Unauthorized
+      500:
+        description: Execution error
+    """
     data = request.get_json() or {}
     task = data.get('task', '').strip()
     agent_type = data.get('agent_type', 'auto')
@@ -256,14 +430,36 @@ def execute_task(current_user):
 @app.route('/api/agents/status', methods=['GET'])
 @token_required
 def get_agent_status(current_user):
-    """Get available agents and their status"""
+    """Get available agents and their status
+    ---
+    tags:
+      - Agents
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: List of agents with their status
+      401:
+        description: Unauthorized
+    """
     return jsonify({'agents': AGENTS_CONFIG})
 
 
 @app.route('/api/agents/history', methods=['GET'])
 @token_required
 def get_history(current_user):
-    """Get task execution history"""
+    """Get task execution history
+    ---
+    tags:
+      - Agents
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: List of past task executions
+      401:
+        description: Unauthorized
+    """
     return jsonify({'history': []})  # TODO: Implement history storage
 
 
@@ -272,14 +468,49 @@ def get_history(current_user):
 @app.route('/api/settings', methods=['GET'])
 @token_required
 def get_settings(current_user):
-    """Get user settings"""
+    """Get user settings
+    ---
+    tags:
+      - Settings
+    security:
+      - Bearer: []
+    responses:
+      200:
+        description: User settings object
+      401:
+        description: Unauthorized
+    """
     return jsonify({'settings': get_user_settings(current_user['id']) or {}})
 
 
 @app.route('/api/settings', methods=['PUT'])
 @token_required
 def update_settings_route(current_user):
-    """Update user settings"""
+    """Update user settings
+    ---
+    tags:
+      - Settings
+    security:
+      - Bearer: []
+    consumes:
+      - application/json
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          description: Key-value settings to update
+    responses:
+      200:
+        description: Settings updated successfully
+      400:
+        description: Missing settings data
+      401:
+        description: Unauthorized
+      500:
+        description: Server error
+    """
     data = request.get_json()
     if not data:
         return jsonify({'message': 'Settings data required'}), 400
@@ -387,7 +618,14 @@ def verify_payment_route(current_user):
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
+    """Health check endpoint
+    ---
+    tags:
+      - Utility
+    responses:
+      200:
+        description: Server is healthy
+    """
     return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
 
 

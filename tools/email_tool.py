@@ -35,10 +35,10 @@ class EmailTool:
             email_address: Sender email address
             email_password: Email password or app password
         """
-        from config import get_user_email_config_from_session
-        
-        # Get user-specific config if available, fallback to environment
-        config = get_user_email_config_from_session()
+        from config import get_email_config
+
+        # Get email config from environment variables
+        config = get_email_config()
         
         self.smtp_server = smtp_server or config["smtp_server"]
         self.smtp_port = smtp_port or config["smtp_port"]
